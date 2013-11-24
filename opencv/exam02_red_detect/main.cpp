@@ -26,14 +26,16 @@
 
 
 
+extern void *Lib_Motor(void *Arg);
 extern void *Lib_Vision(void *Arg);
 
 
 int  Main_Init();
 void Sleep(int millisecs);
 
-
+extern int Lib_Motor_Debug;
 extern int Lib_Vision_Debug;
+extern int Lib_Motor_Enable;
 
 extern int Thre_Red;
 extern int Thre_Bin;
@@ -47,6 +49,7 @@ int main()
 
 	printf("OpenCV Red Detect\n");
 
+	Thread_Create( 0, Lib_Motor, NULL  );
 	Thread_Create( 1, Lib_Vision, NULL  );
 
 
@@ -66,9 +69,9 @@ int main()
 
 			if( Key_Data == 'q' ) break;
 
-
+			if( Key_Data == '1' )	Lib_Motor_Debug  ^= 1;
 			if( Key_Data == '2' )	Lib_Vision_Debug ^= 1;
-			
+			if( Key_Data == 's' )	Lib_Motor_Enable ^= 1;
 
 
 			if( Key_Data == 'o' )

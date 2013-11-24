@@ -7,7 +7,8 @@ TARGET = main
 
 
 SRC = 	main.cpp	\
-		Lib_Vision.cpp \
+		Lib_Vision.cpp 	\
+		Lib_Motor.cpp 	\
 		./Main_Lib/Thread_Lib.c 	\
 		./Main_Lib/KeyBrd_Lib.c
 

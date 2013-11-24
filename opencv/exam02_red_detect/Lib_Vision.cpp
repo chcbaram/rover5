@@ -78,6 +78,7 @@ double  process_time_frame;
 
 int Thre_Red = RED_THRESHOLD;
 int Thre_Bin = BINARY_THRESHOLD;
+int DetectCount = 0;
 
 
 int BlobLabeling(IplImage *imSRC, IplImage *imLabel, LabelST *stLabel, int *countLabel);
@@ -133,6 +134,8 @@ int Tracking_Red( THREAD_OBJ *pArg )
 	char strLine[255];
 	int  ObjDistance;	
 	int  MainBlobIndex;
+	int  rx;
+	int  ry;
 
 	// Create capture device ready
 	// here 0 indicates that we want to use camera at 0th index
@@ -275,6 +278,55 @@ int Tracking_Red( THREAD_OBJ *pArg )
 		}
 		*/
 	
+
+		if( DetectObj == _TRUE  )
+		{
+			int x_offset;
+			int z_offset;
+
+			int   M_Speed  = 0;
+			float M_Handle = 0.0;
+
+			float fHandle;
+			float fSpeed;
+
+
+			rx = cX*RESIZE_FACTOR;
+			ry = cY*RESIZE_FACTOR;
+
+
+			x_offset = rx - (IMG_WIDTH/2);
+			z_offset = -(DetectCount-400);
+
+			fHandle = (float)x_offset / 30;
+			fSpeed  = ((float)abs(z_offset))/5 + (float)(abs(x_offset))/3;
+			
+			if( z_offset < 0 )
+			{
+				fSpeed = -fSpeed;
+			}
+
+			if( fSpeed >  100 ) fSpeed =  100;
+			if( fSpeed < -100 ) fSpeed = -100;
+
+			if( fSpeed > 0 )
+			{
+				Lib_Motor_PwmLeft  = fSpeed + fSpeed * fHandle;
+				Lib_Motor_PwmRight = fSpeed - fSpeed * fHandle; 							
+			}
+			else
+			{
+				Lib_Motor_PwmLeft  = fSpeed - fSpeed * fHandle;
+				Lib_Motor_PwmRight = fSpeed + fSpeed * fHandle; 			
+			}
+		}
+		else
+		{
+			Lib_Motor_PwmLeft  = 0;
+			Lib_Motor_PwmRight = 0; 
+		}
+
+
 
 
 		if( DetectObj == _TRUE )
@@ -579,6 +631,8 @@ int GetMainBlob(IplImage *imLabel, LabelST *stLabel, int countLabel, int *pMainB
 	//if( max > LABEL_SIZE_THRESHOLD )
 	if( countMainID > LABEL_SIZE_THRESHOLD )
 	{
+		DetectCount = countMainID;
+
 		return _TRUE;
 	}
 	else
