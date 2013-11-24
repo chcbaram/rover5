@@ -32,7 +32,7 @@ ifeq ($(MACHINE), armv6l)
 USERCFLAGS = -O2
 endif
 
-LDFLAGS = -lc  -lm 
+LDFLAGS = -lc  -lm -lpthread
 
 
 all: build

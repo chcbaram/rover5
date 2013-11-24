@@ -301,9 +301,9 @@ int Tracking_Red( THREAD_OBJ *pArg )
 
 		//-- 영상 출력
 		//
-		//cvSaveImage("/mnt/ramdisk/img1/depth.jpg",frame);  
+		cvSaveImage("/mnt/ramdisk/img1/depth.jpg",frame);  
 		//cvSaveImage("/mnt/ramdisk/color/color.jpg",imgLabel); 
-		//cvSaveImage("/mnt/ramdisk/img2/color.jpg",imgBin); 
+		cvSaveImage("/mnt/ramdisk/img2/color.jpg",imgBin); 
 
 		//cvResize(IplImage_depth, IplImage_depth_resize);
 		//cvResize(frame, IplImage_color_resize);
