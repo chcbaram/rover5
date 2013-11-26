@@ -59,7 +59,7 @@
 #include "Hw_I2C.h"
 #include "Hw_SPI.h"
 #include "Hw_Adc.h"
-
+#include "Hw_Pwm.h"
 
 //-- Driver
 //
