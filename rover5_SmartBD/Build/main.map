@@ -197,7 +197,7 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 main.o
  .text.Test_DCMOTOR
                 0x0000000000000000       0xc4 main.o
- .bss.Pwm.4523  0x0000000000000000        0x2 main.o
+ .bss.Pwm.4525  0x0000000000000000        0x2 main.o
  .text          0x0000000000000000        0x0 Ap.o
  .data          0x0000000000000000        0x0 Ap.o
  .bss           0x0000000000000000        0x0 Ap.o
@@ -212,18 +212,18 @@ Discarded input sections
                 0x0000000000000000       0xb4 Ap_RadioMenu.o
  .text.Ap_RadioMenu_ExeCmd
                 0x0000000000000000      0x394 Ap_RadioMenu.o
- .bss.AM_Freq_Index.4538
+ .bss.AM_Freq_Index.4540
                 0x0000000000000000        0x2 Ap_RadioMenu.o
- .bss.FM_Freq_Index.4536
+ .rodata.AM_Freq.4541
+                0x0000000000000000       0x14 Ap_RadioMenu.o
+ .bss.FM_Freq_Index.4538
                 0x0000000000000000        0x2 Ap_RadioMenu.o
- .bss.Band_Mode.4535
-                0x0000000000000000        0x1 Ap_RadioMenu.o
  .rodata.str1.4
                 0x0000000000000000      0x400 Ap_RadioMenu.o
- .rodata.AM_Freq.4539
-                0x0000000000000000       0x14 Ap_RadioMenu.o
- .rodata.FM_Freq.4537
+ .rodata.FM_Freq.4539
                 0x0000000000000000       0x38 Ap_RadioMenu.o
+ .bss.Band_Mode.4537
+                0x0000000000000000        0x1 Ap_RadioMenu.o
  .debug_info    0x0000000000000000      0x5f5 Ap_RadioMenu.o
  .debug_abbrev  0x0000000000000000      0x170 Ap_RadioMenu.o
  .debug_loc     0x0000000000000000      0x25e Ap_RadioMenu.o
@@ -315,17 +315,17 @@ Discarded input sections
                 0x0000000000000000       0x30 Ap_GLcdMenu.o
  .text.Ap_GLcdMenu_ExeCmd
                 0x0000000000000000      0x204 Ap_GLcdMenu.o
- .bss.cnt.4514  0x0000000000000000        0x1 Ap_GLcdMenu.o
- .bss.x.4512    0x0000000000000000        0x1 Ap_GLcdMenu.o
- .data.dir.4513
+ .bss.cnt.4516  0x0000000000000000        0x1 Ap_GLcdMenu.o
+ .bss.x.4514    0x0000000000000000        0x1 Ap_GLcdMenu.o
+ .data.dir.4515
                 0x0000000000000000        0x1 Ap_GLcdMenu.o
- .bss.x.4520    0x0000000000000000        0x1 Ap_GLcdMenu.o
- .data.dir.4521
+ .bss.x.4522    0x0000000000000000        0x1 Ap_GLcdMenu.o
+ .data.dir.4523
                 0x0000000000000000        0x1 Ap_GLcdMenu.o
- .bss.cnt.4522  0x0000000000000000        0x1 Ap_GLcdMenu.o
  .rodata.str1.4
                 0x0000000000000000      0x318 Ap_GLcdMenu.o
- .bss.Count.4541
+ .bss.cnt.4524  0x0000000000000000        0x1 Ap_GLcdMenu.o
+ .bss.Count.4543
                 0x0000000000000000        0x1 Ap_GLcdMenu.o
  .debug_info    0x0000000000000000      0x573 Ap_GLcdMenu.o
  .debug_abbrev  0x0000000000000000      0x14f Ap_GLcdMenu.o
@@ -630,7 +630,7 @@ Discarded input sections
                 0x0000000000000000       0x70 Hw_SPI.o
  .text.Hw_SPI_Write16Bit
                 0x0000000000000000       0x70 Hw_SPI.o
- .bss.Called.4398
+ .bss.Called.4400
                 0x0000000000000000        0x1 Hw_SPI.o
  .debug_info    0x0000000000000000      0x278 Hw_SPI.o
  .debug_abbrev  0x0000000000000000      0x1b3 Hw_SPI.o
@@ -709,7 +709,7 @@ Discarded input sections
                 0x0000000000000000       0x78 Hw_DMA.o
  .text.Hw_DMA_SPI2_IsTransFinished
                 0x0000000000000000       0x28 Hw_DMA.o
- .bss.Called.4394
+ .bss.Called.4396
                 0x0000000000000000        0x1 Hw_DMA.o
  .debug_info    0x0000000000000000      0x11a Hw_DMA.o
  .debug_abbrev  0x0000000000000000       0xb4 Hw_DMA.o
@@ -822,7 +822,7 @@ Discarded input sections
                 0x0000000000000000       0x8c Hw_7Seg.o
  .text.Hw_7Seg_Print
                 0x0000000000000000       0xc8 Hw_7Seg.o
- .bss.Column_Cnt.4396
+ .bss.Column_Cnt.4398
                 0x0000000000000000        0x1 Hw_7Seg.o
  .data.Hw_7Seg_DotTbl
                 0x0000000000000000       0x10 Hw_7Seg.o
@@ -911,6 +911,22 @@ Discarded input sections
                 0x0000000000000000       0x1c Hw_DcMotor.o
  .text.Hw_DcMotor_SetDir
                 0x0000000000000000       0x18 Hw_DcMotor.o
+ .text          0x0000000000000000        0x0 Hw_Pwm.o
+ .data          0x0000000000000000        0x0 Hw_Pwm.o
+ .bss           0x0000000000000000        0x0 Hw_Pwm.o
+ .text.Hw_Pwm_Init
+                0x0000000000000000        0x4 Hw_Pwm.o
+ .debug_info    0x0000000000000000       0x7e Hw_Pwm.o
+ .debug_abbrev  0x0000000000000000       0x44 Hw_Pwm.o
+ .debug_aranges
+                0x0000000000000000       0x20 Hw_Pwm.o
+ .debug_ranges  0x0000000000000000       0x10 Hw_Pwm.o
+ .debug_line    0x0000000000000000       0x42 Hw_Pwm.o
+ .debug_str     0x0000000000000000       0xf1 Hw_Pwm.o
+ .comment       0x0000000000000000       0x71 Hw_Pwm.o
+ .ARM.attributes
+                0x0000000000000000       0x33 Hw_Pwm.o
+ .debug_frame   0x0000000000000000       0x20 Hw_Pwm.o
  .text          0x0000000000000000        0x0 usb_desc.o
  .data          0x0000000000000000        0x0 usb_desc.o
  .bss           0x0000000000000000        0x0 usb_desc.o
@@ -1382,6 +1398,7 @@ LOAD Hw_CLcd.o
 LOAD Hw_Adc.o
 LOAD Hw_Cds.o
 LOAD Hw_DcMotor.o
+LOAD Hw_Pwm.o
 LOAD usb_desc.o
 LOAD usb_endp.o
 LOAD usb_istr.o
@@ -2255,7 +2272,7 @@ LOAD /Users/imac/Develop/stm32f4/arm_gcc/gcc-arm-none-eabi-4_7-2013q3/bin/../lib
                 0x0000000020000a00        0x1 Ap_StrCmd.o
                 0x0000000020000a00                Ap_StrCmd_EchoEnable
  *fill*         0x0000000020000a01        0x3 00
- .bss.heap_end.4952
+ .bss.heap_end.4954
                 0x0000000020000a04        0x4 Lb_Util.o
  .bss.StrPrintBufIndex
                 0x0000000020000a08        0x4 Lb_Printf.o
@@ -2263,7 +2280,7 @@ LOAD /Users/imac/Develop/stm32f4/arm_gcc/gcc-arm-none-eabi-4_7-2013q3/bin/../lib
  .bss.StrPrintMode
                 0x0000000020000a0c        0x1 Lb_Printf.o
                 0x0000000020000a0c                StrPrintMode
- .bss.Excute.4406
+ .bss.Excute.4408
                 0x0000000020000a0d        0x1 Hw_Timer.o
  *fill*         0x0000000020000a0e        0x2 00
  .bss.Timer_Tbl
@@ -2271,8 +2288,8 @@ LOAD /Users/imac/Develop/stm32f4/arm_gcc/gcc-arm-none-eabi-4_7-2013q3/bin/../lib
  .bss.Hw_Timer_Counter
                 0x0000000020000ab0        0x4 Hw_Timer.o
  .bss.Tmr_Ctn   0x0000000020000ab4        0x2 Hw_Timer.o
- .bss.Cnt.4396  0x0000000020000ab6        0x2 Hw_DcMotor.o
- .bss.FrameCount.4854
+ .bss.Cnt.4398  0x0000000020000ab6        0x2 Hw_DcMotor.o
+ .bss.FrameCount.4856
                 0x0000000020000ab8        0x4 usb_endp.o
  .bss.wCNTR     0x0000000020000abc        0x4 usb_istr.o
                 0x0000000020000abc                wCNTR
@@ -3312,6 +3329,7 @@ Hw_N5110G_WriteStr                                Hw_N5110G.o
 Hw_N5110G_XorPixel                                Hw_N5110G.o
 Hw_PLL_Init                                       Hw_PLL.o
                                                   Hw.o
+Hw_Pwm_Init                                       Hw_Pwm.o
 Hw_SPI_Ch1_Init                                   Hw_SPI.o
 Hw_SPI_Ch2_Init                                   Hw_SPI.o
 Hw_SPI_Disable                                    Hw_SPI.o

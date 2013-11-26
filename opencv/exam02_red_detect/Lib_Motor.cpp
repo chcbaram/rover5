@@ -45,7 +45,7 @@ void *Lib_Motor(void *Arg)
 	THREAD_OBJ *pArg = (THREAD_OBJ *)Arg;
 
 	//-- 시리얼 통신 초기화 
-	Uart_Handle_Ptr = Uart_Open( COM_USB0, BAUD_115200 );
+	Uart_Handle_Ptr = Uart_Open( COM_USB1, BAUD_115200 );
 
 	if( Uart_Handle_Ptr < 0 )
 	{
