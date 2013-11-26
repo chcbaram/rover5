@@ -27,10 +27,15 @@
 
 #include "Hw.h"
 
- 
+
+#define HW_PWM_MAX_DUTY	1000
+
+#define HW_PWM_PERIOD	1000 
 
 
 EXT_HW_PWM_DEF void Hw_Pwm_Init(void);
+EXT_HW_PWM_DEF void Hw_Pwm_SetDuty( u8 Ch, u16 DutyRatio );
+EXT_HW_PWM_DEF void Hw_Pwm_SetPercent( u8 Ch, u16 PercentRatio );
 
 
 #endif
