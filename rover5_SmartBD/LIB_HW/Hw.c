@@ -60,6 +60,8 @@ void Hw_Init( void )
 	
 	Hw_Led_Init();
 
+	Hw_Pwm_Init();
+
 	Hw_DcMotor_Init();
 	
 }

@@ -1,0 +1,4 @@
+
+*.o
+
+rover5_SmartBD/Build/usb_endp.o
