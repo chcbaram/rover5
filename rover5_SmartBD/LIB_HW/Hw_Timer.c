@@ -18,7 +18,7 @@
 //
 #define  HW_TIMER_LOCAL  
 
-#include "Hw_TImer.h"
+#include "Hw_Timer.h"
 
 
 
