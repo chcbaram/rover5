@@ -343,10 +343,10 @@ int Tracking_Red( THREAD_OBJ *pArg )
 
 
 			x_offset = rx - (IMG_WIDTH/2);
-			z_offset = -(DetectCount-400);
+			z_offset = -(DetectCount-800);
 
-			fHandle = (float)x_offset / 30;
-			fSpeed  = ((float)abs(z_offset))/5 + (float)(abs(x_offset))/3;
+			fHandle = (float)x_offset / 60;
+			fSpeed  = ((float)abs(z_offset))/10 + (float)(abs(x_offset))/3;
 			
 			if( z_offset < 0 )
 			{
