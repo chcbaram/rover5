@@ -53,16 +53,12 @@ void Hw_Init( void )
 	//Hw_DMA_Init();
 	Hw_Uart_Init();
 	Hw_Timer_Init();
-
 	Hw_Adc_Init();
-
 	Hw_VCom_Init();
-	
 	Hw_Led_Init();
-
 	Hw_Pwm_Init();
-
 	Hw_DcMotor_Init();
+	Hw_Sonic_Init();
 	
 }
 

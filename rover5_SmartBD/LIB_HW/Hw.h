@@ -42,7 +42,7 @@
 #define HW_TIMER_CH_KEYPAD				4
 #define HW_TIMER_CH_7SEG				5
 #define HW_TIMER_CH_DCMOTOR				6
-
+#define HW_TIMER_CH_SONIC				7
 
 
 
@@ -72,6 +72,7 @@
 #include "Hw_Cds.h"
 #include "Hw_DcMotor.h"
 #include "Hw_VCom.h"
+#include "Hw_Sonic.h"
 
 #include "Lb_Printf.h"
 

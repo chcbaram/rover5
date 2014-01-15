@@ -99,8 +99,6 @@ void Hw_DcMotor_Init( void )
 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
 	}
 
-	//Hw_Timer_Set  ( HW_TIMER_CH_DCMOTOR, 1, LOOP_TIME, Hw_DcMotor_Tick, NULL );
-	//Hw_Timer_Start( HW_TIMER_CH_DCMOTOR );
 }
 
 

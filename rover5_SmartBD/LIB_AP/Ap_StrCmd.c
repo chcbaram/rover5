@@ -404,6 +404,47 @@ void Ap_StrCmd_SendResp( u8 ErrCode, char *format, ... )
 
 
 /*---------------------------------------------------------------------------
+     TITLE   : Ap_StrCmd_SendInfo
+     WORK    : 
+     ARG     : void
+     RET     : void   
+---------------------------------------------------------------------------*/
+void Ap_StrCmd_SendInfo( u8 ErrCode, char *format, ... )
+{
+	char Str[200];
+	char Ret;
+
+	Lb_va_list ap;
+	
+	Lb_va_start( ap, format );
+
+	Str[0] = AP_STRCMD_FRAME_RET;
+
+	if( ErrCode == ERR_NONE )
+	{
+		Ret = AP_STRCMD_FRAME_OK;
+	}
+	else
+	{
+		Ret = AP_STRCMD_FRAME_FAIL;
+	}
+
+	Lb_sprintf( Str, "%c%c%02x ", 	AP_STRCMD_FRAME_INFO
+								,	Ret
+								,	ErrCode	);
+
+	Lb_vsprintf( &Str[5], format, ap );	
+
+	Lb_va_end(ap);	
+	
+	Ap_StrCmd_Print(Str);
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------
      TITLE   : Ap_StrCmd_GetSize
      WORK    : 
      ARG     : void

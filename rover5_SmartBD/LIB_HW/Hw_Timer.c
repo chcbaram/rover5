@@ -55,7 +55,7 @@ static TMR  Timer_Tbl[ TIMER_MAX ];    // 타이머 배열 선언
 
 void Hw_Timer_SetupISR( void );
 void Hw_Timer_Setup( void );
-
+void Hw_Timer_MeasureSetup( void );
 
 
 void Hw_Timer_ISR(void)
@@ -96,6 +96,7 @@ void Hw_Timer_Init( void )
 	
 	Hw_Timer_SetupISR();
 	Hw_Timer_Setup();	
+	Hw_Timer_MeasureSetup();	
 
 	Excute = 1;
 
@@ -120,6 +121,7 @@ void Hw_Timer_SetupISR( void )
 
 
 
+
 /*---------------------------------------------------------------------------
      TITLE   : Hw_Timer_Setup
      WORK    :
@@ -138,6 +140,40 @@ void Hw_Timer_Setup( void )
 	SET_BIT( REG_STK_CTRL, 1 );	// 인터럽트 활성화		
 	SET_BIT( REG_STK_CTRL, 0 );	// Counter Enable
 	
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------
+     TITLE   : Hw_Timer_MeasureSetup
+     WORK    :
+
+     ARG     : void
+     RET     : void
+---------------------------------------------------------------------------*/
+void Hw_Timer_MeasureSetup( void )
+{
+	
+	//-- 측정용 1us 단위의 타이머 설정 
+	//
+	SET_BIT( REG_RCC_APB2ENR, 11 );		// TIM1 Clock Enable APB1*2 = 72Mhz
+
+	REG_TIM1_PSC = (72)-1; 				// 72Mhz/(72) = 1Mhz
+
+
+	REG_TIM1_CR1   = ( 1<< 7 );			// TIMx_ARR register is buffered 
+	REG_TIM1_CR2   = 0;					
+	REG_TIM1_CCMR2 = 0; 
+	
+	REG_TIM1_ARR   = 0xFFFF; 	
+
+	REG_TIM1_CCER  = 0;	
+
+
+	SET_BIT( REG_TIM1_CR1, 0 );			// Counter Enable 
+
 }
 
 
@@ -312,3 +348,17 @@ u32 Hw_Timer_Get_CountValue( void )
 	return Hw_Timer_Counter;
 }
 
+
+
+
+
+/*---------------------------------------------------------------------------
+     TITLE	: Hw_Timer_Get_u16Count_Usec
+     WORK
+     ARG
+     RET
+---------------------------------------------------------------------------*/
+u16 Hw_Timer_Get_u16Count_Usec( void )
+{
+	return REG_TIM1_CNT;
+}

@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-//    프로그램명 	: ezExplorer
+//    프로그램명 	: Rover5
 //
 //    만든이     	: Cho Han Cheol (Baram)
 //
@@ -7,7 +7,7 @@
 //
 //    최종 수정  	:
 //
-//    MPU_Type		:
+//    MPU_Type	:
 //
 //    파일명     	: Main.c
 //----------------------------------------------------------------------------
@@ -80,6 +80,13 @@ int main(void)
     {
     	//Test_DCMOTOR();
     	Ap_StrCmd_ExeCmd();
+
+    	//-- 주기적인 전송 신호 전달
+    	//
+    	if( (Hw_Timer_Get_CountValue()%100) == 0 )
+    	{ 
+    		Ap_StrCmd_SendInfo( ERR_NONE, "SONIC %d %d\n", Hw_Sonic_GetDistanceMM(0), Hw_Sonic_GetDistanceMM(1) ); 
+    	}
     }
     
 

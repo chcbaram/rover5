@@ -42,6 +42,8 @@
 #define  AP_STRCMD_FRAME_OPCODE		'#'
 #define  AP_STRCMD_FRAME_PRINT		'*'
 #define  AP_STRCMD_FRAME_RET		'>'
+#define  AP_STRCMD_FRAME_INFO		'@'
+
 
 #define  AP_STRCMD_FRAME_OK			'O'
 #define  AP_STRCMD_FRAME_FAIL		'F'
@@ -92,6 +94,7 @@ EXT_AP_STRCMD_DEF u8   Ap_StrCmd_AddCmd( char *NameStr, char *MenuStr,  Ap_StrCm
 
 EXT_AP_STRCMD_DEF void Ap_StrCmd_CmdClear( void );
 EXT_AP_STRCMD_DEF void Ap_StrCmd_SendResp( u8 ErrCode, char *format, ... );
+EXT_AP_STRCMD_DEF void Ap_StrCmd_SendInfo( u8 ErrCode, char *format, ... );
 
 EXT_AP_STRCMD_DEF u8   Ap_StrCmd_ExeCmd( void );
 EXT_AP_STRCMD_DEF s16  Ap_StrCmd_ExeFunc( void );
