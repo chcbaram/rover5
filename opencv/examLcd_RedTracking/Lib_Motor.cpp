@@ -19,6 +19,17 @@
 #include "./Main_Lib/Uart_Sig_Lib.c"
 
 
+#define  AP_STRCMD_FRAME_OPCODE		'#'
+#define  AP_STRCMD_FRAME_PRINT		'*'
+#define  AP_STRCMD_FRAME_RET		'>'
+#define  AP_STRCMD_FRAME_INFO		'@'
+
+
+#define  AP_STRCMD_FRAME_OK			'O'
+#define  AP_STRCMD_FRAME_FAIL		'F'
+
+
+
 
 int Lib_Motor_Debug = 0;
 int Lib_Motor_Enable = 0;
@@ -26,15 +37,70 @@ int Lib_Motor_Enable = 0;
 int Lib_Motor_PwmLeft  = 0;
 int Lib_Motor_PwmRight = 0;
 
+int Sonic_Length_Right  = 0;
+int Sonic_Length_Left   = 0;
+
+
+
+
+char Uart_CmdStr[100];
+int  Uart_CmdIndex = 0;
+
+char Uart_CmdCode[50];
+int  Uart_CmdArg[10];
 
 extern int Thre_Red;
 extern int Thre_Bin;
 extern int DetectCount;
 
+
+
+void Uart_CmdExe( char *pCmd )
+{
+	if( pCmd[0] == AP_STRCMD_FRAME_INFO )
+	{
+		//printf("Receive Info\n");
+		//sscanf(pCmd)
+		if( strncmp( &pCmd[5], "SONIC",5 ) == 0 )
+		{
+			sscanf( &pCmd[5], "%s %d %d", Uart_CmdCode, &Uart_CmdArg[0], &Uart_CmdArg[1] );
+
+			//printf("SONIC %d %d\n", Uart_CmdArg[0], Uart_CmdArg[1] );
+			Sonic_Length_Right = Uart_CmdArg[0];	
+			Sonic_Length_Left  = Uart_CmdArg[1];	
+		}
+	}
+}
+
+
+
 void Uart_Rxd_Func( char Data )
 {
-	//printf("%c", Data );
+	static int Uart_CmdReceived = 0;
+
+	//printf(" (%c->%x) ", Data, Data );
+
+	if( Uart_CmdIndex < 100-1 )
+	{
+		Uart_CmdStr[ Uart_CmdIndex++ ] = Data;
+
+
+		if( Data == 0x0A )
+		{
+			Uart_CmdStr[ Uart_CmdIndex ] = 0;
+
+			Uart_CmdExe( Uart_CmdStr );
+
+			Uart_CmdIndex = 0;
+			//printf("Receive Info11111  %c \n", Uart_CmdStr[0]);
+		}
+	}
+	else
+	{
+		Uart_CmdIndex = 0;
+	}
 }
+
 
 
 
@@ -64,7 +130,9 @@ void *Lib_Motor(void *Arg)
 	{
 		if( Lib_Motor_Debug == 1 )
 		{
-			printf("Pwm %d %d bin:%d  red:%d  Cnt:%03d \n", Lib_Motor_PwmLeft, Lib_Motor_PwmRight, Thre_Bin, Thre_Red, DetectCount );	
+			printf("Pwm %d %d bin:%d  red:%d  Cnt:%03d  L:%04dmm R:%04dmm \n", Lib_Motor_PwmLeft, Lib_Motor_PwmRight, Thre_Bin, Thre_Red, DetectCount
+				, Sonic_Length_Left
+				, Sonic_Length_Right );	
 		}
 
 		if( Lib_Motor_Enable == 1 )
