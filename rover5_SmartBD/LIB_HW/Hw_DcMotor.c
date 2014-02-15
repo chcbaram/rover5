@@ -86,7 +86,11 @@ void Hw_DcMotor_Init( void )
 	REG_GPIOB_CRH |=  (0x03 << (16));	// MODE, PB.6 Output mode, max speed 50Mhz
 	REG_GPIOB_CRH |=  (0x00 << (18));	// CNF,  PB.6 General purpose output push-pul	
 	
-			
+	//-- R1 PB.13
+	//
+	REG_GPIOB_CRH &= ~(0x0F << (20));	// Clear
+	REG_GPIOB_CRH |=  (0x03 << (20));	// MODE, PB.6 Output mode, max speed 50Mhz
+	REG_GPIOB_CRH |=  (0x00 << (22));	// CNF,  PB.6 General purpose output push-pul				
 
 
 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )

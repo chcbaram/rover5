@@ -48,7 +48,7 @@
 
 #define HW_DCMOTOR_PORT_0_PWM	0
 #define HW_DCMOTOR_PORT_0_L		2
-#define HW_DCMOTOR_PORT_0_R		10
+#define HW_DCMOTOR_PORT_0_R		13 // 10
 #define HW_DCMOTOR_PORT_1_PWM	1
 #define HW_DCMOTOR_PORT_1_L		12
 #define HW_DCMOTOR_PORT_1_R		11

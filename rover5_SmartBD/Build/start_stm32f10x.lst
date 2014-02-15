@@ -11,539 +11,932 @@
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.thumb
-  14              		.file	"main.c"
+  14              		.file	"Hw_DcMotor.c"
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.LED_Tick,"ax",%progbits
+  18              		.section	.text.Hw_DcMotor_SetPwm.part.0,"ax",%progbits
   19              		.align	2
-  20              		.global	LED_Tick
-  21              		.thumb
-  22              		.thumb_func
-  24              	LED_Tick:
-  25              	.LFB0:
-  26              		.file 1 "../main.c"
-   1:../main.c     **** //----------------------------------------------------------------------------
-   2:../main.c     **** //    프로그램명 	: Rover5
-   3:../main.c     **** //
-   4:../main.c     **** //    만든이     	: Cho Han Cheol (Baram)
-   5:../main.c     **** //
-   6:../main.c     **** //    날  짜     	: 2013.10.14.
-   7:../main.c     **** //
-   8:../main.c     **** //    최종 수정  	:
-   9:../main.c     **** //
-  10:../main.c     **** //    MPU_Type	:
-  11:../main.c     **** //
-  12:../main.c     **** //    파일명     	: Main.c
-  13:../main.c     **** //----------------------------------------------------------------------------
-  14:../main.c     **** /*
-  15:../main.c     **** 	131014 
-  16:../main.c     **** 		- 초기 프로젝트 작업 시작		
-  17:../main.c     **** */
-  18:../main.c     **** 
-  19:../main.c     **** 
-  20:../main.c     **** 
-  21:../main.c     **** 
-  22:../main.c     **** //----- 헤더파일 열기
-  23:../main.c     **** //
-  24:../main.c     **** #define  MAIN_LOCAL
-  25:../main.c     **** 
-  26:../main.c     **** #include "main.h"
-  27:../main.c     **** 
-  28:../main.c     **** 
-  29:../main.c     **** 
-  30:../main.c     **** 
-  31:../main.c     **** //-- 내부 선언
-  32:../main.c     **** //
-  33:../main.c     **** #define DCM_RU	3
-  34:../main.c     **** #define DCM_RD	1
-  35:../main.c     **** #define DCM_LU	2
-  36:../main.c     **** #define DCM_LD	0
-  37:../main.c     **** 
-  38:../main.c     **** 
-  39:../main.c     **** //-- 내부 변수
-  40:../main.c     **** //
-  41:../main.c     **** 
-  42:../main.c     **** 
-  43:../main.c     **** 
-  44:../main.c     **** //-- 내부 함수
-  45:../main.c     **** //
-  46:../main.c     **** static void Main_Init( void );
-  47:../main.c     **** 
-  48:../main.c     **** void Test_DCMOTOR();
-  49:../main.c     **** 
-  50:../main.c     **** 
-  51:../main.c     **** 
-  52:../main.c     **** void LED_Tick( void )
-  53:../main.c     **** {
-  27              		.loc 1 53 0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31 0000 08B5     		push	{r3, lr}
-  32              	.LCFI0:
-  33              		.cfi_def_cfa_offset 8
-  34              		.cfi_offset 3, -8
-  35              		.cfi_offset 14, -4
-  54:../main.c     **** 	Hw_Led_Toggle(0);
-  36              		.loc 1 54 0
-  37 0002 40F20003 		movw	r3, #:lower16:Hw_Led_Toggle
-  38 0006 0020     		movs	r0, #0
-  39 0008 C0F20003 		movt	r3, #:upper16:Hw_Led_Toggle
-  40 000c 9847     		blx	r3
-  41              	.LVL0:
-  42 000e 08BD     		pop	{r3, pc}
-  43              		.cfi_endproc
-  44              	.LFE0:
-  46              		.section	.text.startup.main,"ax",%progbits
-  47              		.align	2
-  48              		.global	main
-  49              		.thumb
-  50              		.thumb_func
-  52              	main:
-  53              	.LFB1:
-  55:../main.c     **** }
-  56:../main.c     **** 
-  57:../main.c     **** 
-  58:../main.c     **** 
-  59:../main.c     **** /*---------------------------------------------------------------------------
-  60:../main.c     ****      TITLE   :	main          
-  61:../main.c     ****      WORK    : 	
-  62:../main.c     ****      			메인 함수
-  63:../main.c     ****      ARG     : 	void
-  64:../main.c     ****      RET     : 	
-  65:../main.c     ****      			int
-  66:../main.c     **** ---------------------------------------------------------------------------*/
-  67:../main.c     **** int main(void)
-  68:../main.c     **** {
-  54              		.loc 1 68 0
-  55              		.cfi_startproc
-  56              		@ args = 0, pretend = 0, frame = 0
-  57              		@ frame_needed = 0, uses_anonymous_args = 0
-  58 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
-  59              	.LCFI1:
-  60              		.cfi_def_cfa_offset 36
-  61              		.cfi_offset 4, -36
-  62              		.cfi_offset 5, -32
-  63              		.cfi_offset 6, -28
-  64              		.cfi_offset 7, -24
-  65              		.cfi_offset 8, -20
-  66              		.cfi_offset 9, -16
-  67              		.cfi_offset 10, -12
-  68              		.cfi_offset 11, -8
-  69              		.cfi_offset 14, -4
-  70              	.LBB4:
-  71              	.LBB5:
-  69:../main.c     **** 	
-  70:../main.c     **** 	Main_Init();
-  71:../main.c     **** 
-  72:../main.c     **** 	//-- 명령어 처리
-  73:../main.c     **** 	//
-  74:../main.c     **** 	//Ap_RadioMenu_ExeCmd();    
-  75:../main.c     **** 	//Ap_GLcdMenu_ExeCmd();    
-  76:../main.c     **** 	//Ap_EduMenu_ExeCmd();
-  77:../main.c     **** 
-  78:../main.c     **** 	Lb_printf("ezExplorer\n");
-  79:../main.c     ****     while(1)
-  80:../main.c     ****     {
-  81:../main.c     ****     	//Test_DCMOTOR();
-  82:../main.c     ****     	Ap_StrCmd_ExeCmd();
-  83:../main.c     **** 
-  84:../main.c     ****     	//-- 주기적인 전송 신호 전달
-  85:../main.c     ****     	//
-  86:../main.c     ****     	if( (Hw_Timer_Get_CountValue()%100) == 0 )
-  87:../main.c     ****     	{ 
-  88:../main.c     ****     		Ap_StrCmd_SendInfo( ERR_NONE, "SONIC %d %d\n", Hw_Sonic_GetDistanceMM(0), Hw_Sonic_GetDistanc
-  89:../main.c     ****     	}
-  90:../main.c     ****     }
-  91:../main.c     ****     
-  92:../main.c     **** 
-  93:../main.c     **** 
-  94:../main.c     ****     return 0;
-  95:../main.c     **** }
-  96:../main.c     **** 
-  97:../main.c     **** 
-  98:../main.c     **** 
-  99:../main.c     **** 
- 100:../main.c     **** 
- 101:../main.c     **** /*---------------------------------------------------------------------------
- 102:../main.c     ****      TITLE   : Main_Init
- 103:../main.c     ****      WORK    :
- 104:../main.c     ****      ARG     : void
- 105:../main.c     ****      RET     : void
- 106:../main.c     **** ---------------------------------------------------------------------------*/
- 107:../main.c     **** void Main_Init( void )
- 108:../main.c     **** {
- 109:../main.c     **** 	Hw_Init();
-  72              		.loc 1 109 0
-  73 0004 194B     		ldr	r3, .L9
-  74              	.LBE5:
-  75              	.LBE4:
-  68:../main.c     **** {
-  76              		.loc 1 68 0
-  77 0006 83B0     		sub	sp, sp, #12
-  78              	.LCFI2:
-  79              		.cfi_def_cfa_offset 48
-  80              	.LBB7:
-  81              	.LBB6:
-  82              		.loc 1 109 0
-  83 0008 9847     		blx	r3
-  84              	.LVL1:
- 110:../main.c     **** 	Ap_Init();
- 111:../main.c     **** 	
- 112:../main.c     **** 	Hw_Timer_Set  ( HW_TIMER_CH_LED, 1000, LOOP_TIME, LED_Tick, NULL );
-  85              		.loc 1 112 0
-  86 000a 0024     		movs	r4, #0
- 110:../main.c     **** 	Ap_Init();
-  87              		.loc 1 110 0
-  88 000c 1848     		ldr	r0, .L9+4
-  89 000e 8047     		blx	r0
-  90              	.LVL2:
-  91              		.loc 1 112 0
-  92 0010 184D     		ldr	r5, .L9+8
-  93 0012 0222     		movs	r2, #2
-  94 0014 184B     		ldr	r3, .L9+12
-  95 0016 4FF47A71 		mov	r1, #1000
-  96 001a 2046     		mov	r0, r4
-  97 001c 0094     		str	r4, [sp, #0]
-  98 001e A847     		blx	r5
-  99              	.LVL3:
- 113:../main.c     **** 	Hw_Timer_Start( HW_TIMER_CH_LED );	
- 100              		.loc 1 113 0
- 101 0020 2046     		mov	r0, r4
- 102 0022 1649     		ldr	r1, .L9+16
- 103 0024 8847     		blx	r1
- 104              	.LVL4:
- 105              	.LBE6:
- 106              	.LBE7:
-  78:../main.c     **** 	Lb_printf("ezExplorer\n");
- 107              		.loc 1 78 0
- 108 0026 1648     		ldr	r0, .L9+20
- 109 0028 164A     		ldr	r2, .L9+24
- 110 002a 9047     		blx	r2
- 111              	.LVL5:
-  86:../main.c     ****     	if( (Hw_Timer_Get_CountValue()%100) == 0 )
- 112              		.loc 1 86 0
- 113 002c 48F21F55 		movw	r5, #34079
- 114 0030 DFF85C80 		ldr	r8, .L9+36
- 115 0034 144F     		ldr	r7, .L9+28
- 116 0036 DFF85C90 		ldr	r9, .L9+40
- 117 003a DFF85CA0 		ldr	sl, .L9+44
- 118 003e C5F2EB15 		movt	r5, 20971
- 119 0042 6426     		movs	r6, #100
- 120              	.L7:
-  82:../main.c     ****     	Ap_StrCmd_ExeCmd();
- 121              		.loc 1 82 0
- 122 0044 C047     		blx	r8
- 123              	.LVL6:
-  86:../main.c     ****     	if( (Hw_Timer_Get_CountValue()%100) == 0 )
- 124              		.loc 1 86 0
- 125 0046 B847     		blx	r7
- 126              	.LVL7:
- 127 0048 A5FB0034 		umull	r3, r4, r5, r0
- 128 004c 6309     		lsrs	r3, r4, #5
- 129 004e 06FB1304 		mls	r4, r6, r3, r0
- 130 0052 002C     		cmp	r4, #0
- 131 0054 F6D1     		bne	.L7
-  88:../main.c     ****     		Ap_StrCmd_SendInfo( ERR_NONE, "SONIC %d %d\n", Hw_Sonic_GetDistanceMM(0), Hw_Sonic_GetDistanc
- 132              		.loc 1 88 0
- 133 0056 2046     		mov	r0, r4
- 134 0058 C847     		blx	r9
- 135              	.LVL8:
- 136 005a 8346     		mov	fp, r0
- 137 005c 0120     		movs	r0, #1
- 138 005e C847     		blx	r9
- 139              	.LVL9:
- 140 0060 0A49     		ldr	r1, .L9+32
- 141 0062 0346     		mov	r3, r0
- 142 0064 5A46     		mov	r2, fp
- 143 0066 2046     		mov	r0, r4
- 144 0068 D047     		blx	sl
- 145              	.LVL10:
- 146 006a EBE7     		b	.L7
- 147              	.L10:
- 148              		.align	2
- 149              	.L9:
- 150 006c 00000000 		.word	Hw_Init
- 151 0070 00000000 		.word	Ap_Init
- 152 0074 00000000 		.word	Hw_Timer_Set
- 153 0078 00000000 		.word	LED_Tick
- 154 007c 00000000 		.word	Hw_Timer_Start
- 155 0080 00000000 		.word	.LC0
- 156 0084 00000000 		.word	Lb_printf
- 157 0088 00000000 		.word	Hw_Timer_Get_CountValue
- 158 008c 0C000000 		.word	.LC1
- 159 0090 00000000 		.word	Ap_StrCmd_ExeCmd
- 160 0094 00000000 		.word	Hw_Sonic_GetDistanceMM
- 161 0098 00000000 		.word	Ap_StrCmd_SendInfo
- 162              		.cfi_endproc
- 163              	.LFE1:
- 165              		.section	.text.Test_DCMOTOR,"ax",%progbits
- 166              		.align	2
- 167              		.global	Test_DCMOTOR
- 168              		.thumb
- 169              		.thumb_func
- 171              	Test_DCMOTOR:
- 172              	.LFB3:
- 114:../main.c     **** }
- 115:../main.c     **** 
- 116:../main.c     **** 
- 117:../main.c     **** 
- 118:../main.c     **** 
- 119:../main.c     **** 
- 120:../main.c     **** void Test_DCMOTOR()
- 121:../main.c     **** {
- 173              		.loc 1 121 0
- 174              		.cfi_startproc
- 175              		@ args = 0, pretend = 0, frame = 0
- 176              		@ frame_needed = 0, uses_anonymous_args = 0
- 122:../main.c     **** 	u8  Ch;
- 123:../main.c     **** 	static s16 Pwm = 0;
- 124:../main.c     **** 
- 125:../main.c     **** 	Ch = Hw_Uart_Getch( 0 );
- 177              		.loc 1 125 0
- 178 0000 0020     		movs	r0, #0
- 121:../main.c     **** {
- 179              		.loc 1 121 0
- 180 0002 10B5     		push	{r4, lr}
- 181              	.LCFI3:
- 182              		.cfi_def_cfa_offset 8
- 183              		.cfi_offset 4, -8
- 184              		.cfi_offset 14, -4
- 185              		.loc 1 125 0
- 186 0004 2A4B     		ldr	r3, .L29
- 187 0006 9847     		blx	r3
- 188              	.LVL11:
- 126:../main.c     **** 
- 127:../main.c     **** 	if( Ch == 'i' )
- 189              		.loc 1 127 0
- 190 0008 6928     		cmp	r0, #105
- 191 000a 24D0     		beq	.L23
- 128:../main.c     **** 	{
- 129:../main.c     **** 		Hw_DcMotor_Handle( Pwm, Pwm );
- 130:../main.c     **** 	}
- 131:../main.c     **** 	else if( Ch == ',' )
- 192              		.loc 1 131 0
- 193 000c 2C28     		cmp	r0, #44
- 194 000e 2ED0     		beq	.L24
- 132:../main.c     **** 	{
- 133:../main.c     **** 		Hw_DcMotor_Handle( -Pwm, -Pwm );
- 134:../main.c     **** 	}
- 135:../main.c     **** 	else if( Ch == 'j' )
- 195              		.loc 1 135 0
- 196 0010 6A28     		cmp	r0, #106
- 197 0012 36D0     		beq	.L25
- 136:../main.c     **** 	{
- 137:../main.c     **** 		Hw_DcMotor_Handle( -Pwm, Pwm );
- 138:../main.c     **** 	}
- 139:../main.c     **** 	else if( Ch == 'l' )
- 198              		.loc 1 139 0
- 199 0014 6C28     		cmp	r0, #108
- 200 0016 3ED0     		beq	.L26
- 140:../main.c     **** 	{
- 141:../main.c     **** 		Hw_DcMotor_Handle( Pwm, -Pwm );
- 142:../main.c     **** 	}
- 143:../main.c     **** 	else if( Ch == 'k' )
- 201              		.loc 1 143 0
- 202 0018 6B28     		cmp	r0, #107
- 203 001a 40D0     		beq	.L27
- 144:../main.c     **** 	{
- 145:../main.c     **** 		Hw_DcMotor_Handle( 0, 0 );
- 146:../main.c     **** 	}
- 147:../main.c     **** 	else if( Ch == 'q' )
- 204              		.loc 1 147 0
- 205 001c 7128     		cmp	r0, #113
- 148:../main.c     **** 	{
- 149:../main.c     **** 		Pwm += 10;
- 206              		.loc 1 149 0
- 207 001e 254B     		ldr	r3, .L29+4
- 147:../main.c     **** 	else if( Ch == 'q' )
- 208              		.loc 1 147 0
- 209 0020 08D0     		beq	.L28
- 150:../main.c     **** 
- 151:../main.c     **** 		if( Pwm > 100 ) Pwm = 100;
- 152:../main.c     **** 
- 153:../main.c     **** 	}
- 154:../main.c     **** 	else if( Ch == 'a' )
- 210              		.loc 1 154 0
- 211 0022 6128     		cmp	r0, #97
- 212 0024 0ED0     		beq	.L20
- 213 0026 B3F90020 		ldrsh	r2, [r3, #0]
- 214              	.LVL12:
- 215              	.L13:
- 155:../main.c     **** 	{
- 156:../main.c     **** 		if( Pwm >= 10 ) Pwm -= 10;
- 157:../main.c     **** 	}
- 158:../main.c     **** 
- 159:../main.c     **** 	Hw_Uart_Print( 0, "Pwm %d\n", Pwm );
- 216              		.loc 1 159 0
- 217 002a 0020     		movs	r0, #0
- 218 002c 2249     		ldr	r1, .L29+8
- 219 002e 234B     		ldr	r3, .L29+12
- 220 0030 9847     		blx	r3
- 221              	.LVL13:
- 222 0032 10BD     		pop	{r4, pc}
- 223              	.LVL14:
- 224              	.L28:
- 149:../main.c     **** 		Pwm += 10;
- 225              		.loc 1 149 0
- 226 0034 1888     		ldrh	r0, [r3, #0]
- 227              	.LVL15:
- 228 0036 0A30     		adds	r0, r0, #10
- 229 0038 81B2     		uxth	r1, r0
- 151:../main.c     **** 		if( Pwm > 100 ) Pwm = 100;
- 230              		.loc 1 151 0
- 231 003a 0AB2     		sxth	r2, r1
- 232 003c 642A     		cmp	r2, #100
- 233 003e 13DC     		bgt	.L19
- 149:../main.c     **** 		Pwm += 10;
- 234              		.loc 1 149 0
- 235 0040 1980     		strh	r1, [r3, #0]	@ movhi
- 236 0042 F2E7     		b	.L13
- 237              	.LVL16:
- 238              	.L20:
- 156:../main.c     **** 		if( Pwm >= 10 ) Pwm -= 10;
- 239              		.loc 1 156 0
- 240 0044 1988     		ldrh	r1, [r3, #0]
- 241 0046 0AB2     		sxth	r2, r1
- 242 0048 092A     		cmp	r2, #9
- 243 004a EEDD     		ble	.L13
- 156:../main.c     **** 		if( Pwm >= 10 ) Pwm -= 10;
- 244              		.loc 1 156 0 is_stmt 0 discriminator 1
- 245 004c A1F10A02 		sub	r2, r1, #10
- 246 0050 92B2     		uxth	r2, r2
- 247 0052 1A80     		strh	r2, [r3, #0]	@ movhi
- 248 0054 E9E7     		b	.L13
- 249              	.L23:
- 129:../main.c     **** 		Hw_DcMotor_Handle( Pwm, Pwm );
- 250              		.loc 1 129 0 is_stmt 1
- 251 0056 174C     		ldr	r4, .L29+4
- 252 0058 194A     		ldr	r2, .L29+16
- 253 005a B4F90000 		ldrsh	r0, [r4, #0]
- 254              	.LVL17:
- 255 005e 0146     		mov	r1, r0
- 256 0060 9047     		blx	r2
- 257              	.LVL18:
- 258 0062 B4F90020 		ldrsh	r2, [r4, #0]
- 259 0066 E0E7     		b	.L13
- 260              	.L19:
- 151:../main.c     **** 		if( Pwm > 100 ) Pwm = 100;
- 261              		.loc 1 151 0 discriminator 1
- 262 0068 6422     		movs	r2, #100
- 263 006a 1A80     		strh	r2, [r3, #0]	@ movhi
- 264 006c DDE7     		b	.L13
- 265              	.LVL19:
- 266              	.L24:
- 133:../main.c     **** 		Hw_DcMotor_Handle( -Pwm, -Pwm );
- 267              		.loc 1 133 0
- 268 006e 114C     		ldr	r4, .L29+4
- 269 0070 134B     		ldr	r3, .L29+16
- 270 0072 2288     		ldrh	r2, [r4, #0]
- 271 0074 5042     		negs	r0, r2
- 272              	.LVL20:
- 273 0076 00B2     		sxth	r0, r0
- 274 0078 0146     		mov	r1, r0
- 275 007a 9847     		blx	r3
- 276              	.LVL21:
- 277 007c B4F90020 		ldrsh	r2, [r4, #0]
- 278 0080 D3E7     		b	.L13
- 279              	.LVL22:
- 280              	.L25:
- 137:../main.c     **** 		Hw_DcMotor_Handle( -Pwm, Pwm );
- 281              		.loc 1 137 0
- 282 0082 0C4C     		ldr	r4, .L29+4
- 283 0084 2188     		ldrh	r1, [r4, #0]
- 284 0086 4842     		negs	r0, r1
- 285              	.LVL23:
- 286              	.L22:
- 141:../main.c     **** 		Hw_DcMotor_Handle( Pwm, -Pwm );
- 287              		.loc 1 141 0
- 288 0088 00B2     		sxth	r0, r0
- 289 008a 09B2     		sxth	r1, r1
- 290 008c 0C4B     		ldr	r3, .L29+16
- 291 008e 9847     		blx	r3
- 292              	.LVL24:
- 293 0090 B4F90020 		ldrsh	r2, [r4, #0]
- 294 0094 C9E7     		b	.L13
- 295              	.LVL25:
- 296              	.L26:
- 297 0096 074C     		ldr	r4, .L29+4
- 298 0098 2088     		ldrh	r0, [r4, #0]
- 299              	.LVL26:
- 300 009a 4142     		negs	r1, r0
- 301 009c F4E7     		b	.L22
- 302              	.LVL27:
- 303              	.L27:
- 145:../main.c     **** 		Hw_DcMotor_Handle( 0, 0 );
- 304              		.loc 1 145 0
- 305 009e 0020     		movs	r0, #0
- 306              	.LVL28:
- 307 00a0 0146     		mov	r1, r0
- 308 00a2 074B     		ldr	r3, .L29+16
- 309 00a4 9847     		blx	r3
- 310              	.LVL29:
- 311 00a6 034A     		ldr	r2, .L29+4
- 312 00a8 B2F90020 		ldrsh	r2, [r2, #0]
- 313 00ac BDE7     		b	.L13
- 314              	.L30:
- 315 00ae 00BF     		.align	2
- 316              	.L29:
- 317 00b0 00000000 		.word	Hw_Uart_Getch
- 318 00b4 00000000 		.word	.LANCHOR0
- 319 00b8 1C000000 		.word	.LC2
- 320 00bc 00000000 		.word	Hw_Uart_Print
- 321 00c0 00000000 		.word	Hw_DcMotor_Handle
- 322              		.cfi_endproc
- 323              	.LFE3:
- 325              		.section	.bss.Pwm.4563,"aw",%nobits
- 326              		.align	1
- 327              		.set	.LANCHOR0,. + 0
- 330              	Pwm.4563:
- 331 0000 0000     		.space	2
- 332              		.section	.rodata.str1.4,"aMS",%progbits,1
- 333              		.align	2
- 334              	.LC0:
- 335 0000 657A4578 		.ascii	"ezExplorer\012\000"
- 335      706C6F72 
- 335      65720A00 
- 336              	.LC1:
- 337 000c 534F4E49 		.ascii	"SONIC %d %d\012\000"
- 337      43202564 
- 337      2025640A 
- 337      00
- 338 0019 000000   		.space	3
- 339              	.LC2:
- 340 001c 50776D20 		.ascii	"Pwm %d\012\000"
- 340      25640A00 
- 341              		.text
- 342              	.Letext0:
- 343              		.file 2 "../LIB_HW/Hw_Define.h"
+  20              		.thumb
+  21              		.thumb_func
+  23              	Hw_DcMotor_SetPwm.part.0:
+  24              	.LFB5:
+  25              		.file 1 "../LIB_HW/Hw_DcMotor.c"
+   1:../LIB_HW/Hw_DcMotor.c **** //----------------------------------------------------------------------------
+   2:../LIB_HW/Hw_DcMotor.c **** //    프로그램명 	: DC 모터 관련 함수
+   3:../LIB_HW/Hw_DcMotor.c **** //
+   4:../LIB_HW/Hw_DcMotor.c **** //    만든이     	: Cho Han Cheol
+   5:../LIB_HW/Hw_DcMotor.c **** //
+   6:../LIB_HW/Hw_DcMotor.c **** //    날  짜     	: 2013. 1. 22.
+   7:../LIB_HW/Hw_DcMotor.c **** //    
+   8:../LIB_HW/Hw_DcMotor.c **** //    최종 수정  	:
+   9:../LIB_HW/Hw_DcMotor.c **** //
+  10:../LIB_HW/Hw_DcMotor.c **** //    MPU_Type	:
+  11:../LIB_HW/Hw_DcMotor.c **** //
+  12:../LIB_HW/Hw_DcMotor.c **** //    파일명     	: Hw_DcMotor.c
+  13:../LIB_HW/Hw_DcMotor.c **** //----------------------------------------------------------------------------
+  14:../LIB_HW/Hw_DcMotor.c **** 
+  15:../LIB_HW/Hw_DcMotor.c **** 
+  16:../LIB_HW/Hw_DcMotor.c **** //----- 헤더파일 열기
+  17:../LIB_HW/Hw_DcMotor.c **** //
+  18:../LIB_HW/Hw_DcMotor.c **** #define  HW_DCMOTOR_LOCAL
+  19:../LIB_HW/Hw_DcMotor.c **** 
+  20:../LIB_HW/Hw_DcMotor.c **** #include "Hw_DcMotor.h"
+  21:../LIB_HW/Hw_DcMotor.c **** #include "Hw_Pwm.h"
+  22:../LIB_HW/Hw_DcMotor.c **** 
+  23:../LIB_HW/Hw_DcMotor.c **** 
+  24:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_MAX_CNT			10
+  25:../LIB_HW/Hw_DcMotor.c **** 
+  26:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_STATE_IDLE		0
+  27:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_STATE_STOP		1
+  28:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_STATE_RUN		2
+  29:../LIB_HW/Hw_DcMotor.c **** 
+  30:../LIB_HW/Hw_DcMotor.c **** 
+  31:../LIB_HW/Hw_DcMotor.c **** 
+  32:../LIB_HW/Hw_DcMotor.c **** 
+  33:../LIB_HW/Hw_DcMotor.c **** 
+  34:../LIB_HW/Hw_DcMotor.c **** 
+  35:../LIB_HW/Hw_DcMotor.c **** 
+  36:../LIB_HW/Hw_DcMotor.c **** 
+  37:../LIB_HW/Hw_DcMotor.c **** 
+  38:../LIB_HW/Hw_DcMotor.c **** 
+  39:../LIB_HW/Hw_DcMotor.c **** 
+  40:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+  41:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Init
+  42:../LIB_HW/Hw_DcMotor.c ****      WORK    : 
+  43:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+  44:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+  45:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+  46:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Init( void )
+  47:../LIB_HW/Hw_DcMotor.c **** {
+  48:../LIB_HW/Hw_DcMotor.c **** 	u8 i;
+  49:../LIB_HW/Hw_DcMotor.c **** 
+  50:../LIB_HW/Hw_DcMotor.c **** 
+  51:../LIB_HW/Hw_DcMotor.c **** 	//-- GPIO 설정
+  52:../LIB_HW/Hw_DcMotor.c **** 	//
+  53:../LIB_HW/Hw_DcMotor.c **** 	//-- L0 PB.0
+  54:../LIB_HW/Hw_DcMotor.c **** 	//
+  55:../LIB_HW/Hw_DcMotor.c **** 	//REG_GPIOB_CRL &= ~(0x0F << ( 0));	// Clear
+  56:../LIB_HW/Hw_DcMotor.c **** 	//REG_GPIOB_CRL |=  (0x03 << ( 0));	// MODE, PB.0 Output mode, max speed 50Mhz
+  57:../LIB_HW/Hw_DcMotor.c **** 	//REG_GPIOB_CRL |=  (0x00 << ( 2));	// CNF,  PB.0 General purpose output push-pul	
+  58:../LIB_HW/Hw_DcMotor.c **** 
+  59:../LIB_HW/Hw_DcMotor.c **** 	//-- L1 PB.1
+  60:../LIB_HW/Hw_DcMotor.c **** 	//
+  61:../LIB_HW/Hw_DcMotor.c **** 	//REG_GPIOB_CRL &= ~(0x0F << ( 4));	// Clear
+  62:../LIB_HW/Hw_DcMotor.c **** 	//REG_GPIOB_CRL |=  (0x03 << ( 4));	// MODE, PB.1 Output mode, max speed 50Mhz
+  63:../LIB_HW/Hw_DcMotor.c **** 	//REG_GPIOB_CRL |=  (0x00 << ( 6));	// CNF,  PB.1 General purpose output push-pul	
+  64:../LIB_HW/Hw_DcMotor.c **** 
+  65:../LIB_HW/Hw_DcMotor.c **** 	//-- L2 PB.2
+  66:../LIB_HW/Hw_DcMotor.c **** 	//
+  67:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 8));	// Clear
+  68:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+  69:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+  70:../LIB_HW/Hw_DcMotor.c **** 
+  71:../LIB_HW/Hw_DcMotor.c **** 	//-- L3 PB.10
+  72:../LIB_HW/Hw_DcMotor.c **** 	//
+  73:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+  74:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+  75:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+  76:../LIB_HW/Hw_DcMotor.c **** 
+  77:../LIB_HW/Hw_DcMotor.c **** 	//-- R0 PB.11
+  78:../LIB_HW/Hw_DcMotor.c **** 	//
+  79:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (12));	// Clear
+  80:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (12));	// MODE, PB.2 Output mode, max speed 50Mhz
+  81:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (14));	// CNF,  PB.2 General purpose output push-pul	
+  82:../LIB_HW/Hw_DcMotor.c **** 	
+  83:../LIB_HW/Hw_DcMotor.c **** 	//-- R1 PB.12
+  84:../LIB_HW/Hw_DcMotor.c **** 	//
+  85:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (16));	// Clear
+  86:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (16));	// MODE, PB.6 Output mode, max speed 50Mhz
+  87:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (18));	// CNF,  PB.6 General purpose output push-pul	
+  88:../LIB_HW/Hw_DcMotor.c **** 	
+  89:../LIB_HW/Hw_DcMotor.c **** 	//-- R1 PB.13
+  90:../LIB_HW/Hw_DcMotor.c **** 	//
+  91:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (20));	// Clear
+  92:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (20));	// MODE, PB.6 Output mode, max speed 50Mhz
+  93:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (22));	// CNF,  PB.6 General purpose output push-pul				
+  94:../LIB_HW/Hw_DcMotor.c **** 
+  95:../LIB_HW/Hw_DcMotor.c **** 
+  96:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+  97:../LIB_HW/Hw_DcMotor.c **** 	{
+  98:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+  99:../LIB_HW/Hw_DcMotor.c **** 
+ 100:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 101:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 102:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Speed = 0;
+ 103:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 104:../LIB_HW/Hw_DcMotor.c **** 	}
+ 105:../LIB_HW/Hw_DcMotor.c **** 
+ 106:../LIB_HW/Hw_DcMotor.c **** }
+ 107:../LIB_HW/Hw_DcMotor.c **** 
+ 108:../LIB_HW/Hw_DcMotor.c **** 
+ 109:../LIB_HW/Hw_DcMotor.c **** 
+ 110:../LIB_HW/Hw_DcMotor.c **** 
+ 111:../LIB_HW/Hw_DcMotor.c **** 
+ 112:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 113:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Stop
+ 114:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 115:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 116:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 117:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 118:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Stop( u8 Ch )
+ 119:../LIB_HW/Hw_DcMotor.c **** {
+ 120:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+ 121:../LIB_HW/Hw_DcMotor.c **** 	{
+ 122:../LIB_HW/Hw_DcMotor.c **** 		case 0:
+ 123:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 124:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 125:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 126:../LIB_HW/Hw_DcMotor.c **** 
+ 127:../LIB_HW/Hw_DcMotor.c **** 		case 1:
+ 128:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 129:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 130:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 131:../LIB_HW/Hw_DcMotor.c **** 	}
+ 132:../LIB_HW/Hw_DcMotor.c **** }
+ 133:../LIB_HW/Hw_DcMotor.c **** 
+ 134:../LIB_HW/Hw_DcMotor.c **** 
+ 135:../LIB_HW/Hw_DcMotor.c **** 
+ 136:../LIB_HW/Hw_DcMotor.c **** 
+ 137:../LIB_HW/Hw_DcMotor.c **** 
+ 138:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 139:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_SetPwm
+ 140:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 141:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 142:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 143:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 144:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_SetPwm( u8 Ch, u16 Pwm  )
+  26              		.loc 1 144 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+ 145:../LIB_HW/Hw_DcMotor.c **** {
+ 146:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 147:../LIB_HW/Hw_DcMotor.c **** 
+ 148:../LIB_HW/Hw_DcMotor.c **** 	if( Pwm > HW_DCMOTOR_MAX_PWM ) Pwm = HW_DCMOTOR_MAX_PWM;
+ 149:../LIB_HW/Hw_DcMotor.c **** 
+ 150:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+  31              		.loc 1 150 0
+  32 0000 40F20002 		movw	r2, #:lower16:Hw_DcMotor_State
+ 144:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_SetPwm( u8 Ch, u16 Pwm  )
+  33              		.loc 1 144 0
+  34 0004 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39              		.loc 1 150 0
+  40 0006 C0F20002 		movt	r2, #:upper16:Hw_DcMotor_State
+  41 000a 6429     		cmp	r1, #100
+  42 000c 34BF     		ite	cc
+  43 000e 0C46     		movcc	r4, r1
+  44 0010 6424     		movcs	r4, #100
+  45              	.LVL1:
+  46 0012 00EB4001 		add	r1, r0, r0, lsl #1
+  47 0016 02EB4102 		add	r2, r2, r1, lsl #1
+ 151:../LIB_HW/Hw_DcMotor.c **** 
+ 152:../LIB_HW/Hw_DcMotor.c **** 	Hw_Pwm_SetPercent( Ch, Pwm );
+  48              		.loc 1 152 0
+  49 001a 40F20003 		movw	r3, #:lower16:Hw_Pwm_SetPercent
+  50 001e 2146     		mov	r1, r4
+  51 0020 C0F20003 		movt	r3, #:upper16:Hw_Pwm_SetPercent
+ 150:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+  52              		.loc 1 150 0
+  53 0024 9480     		strh	r4, [r2, #4]	@ movhi
+  54              		.loc 1 152 0
+  55 0026 9847     		blx	r3
+  56              	.LVL2:
+  57 0028 10BD     		pop	{r4, pc}
+  58              		.cfi_endproc
+  59              	.LFE5:
+  61 002a 00BF     		.section	.text.Hw_DcMotor_SetDir.part.1,"ax",%progbits
+  62              		.align	2
+  63              		.thumb
+  64              		.thumb_func
+  66              	Hw_DcMotor_SetDir.part.1:
+  67              	.LFB6:
+ 153:../LIB_HW/Hw_DcMotor.c **** }
+ 154:../LIB_HW/Hw_DcMotor.c **** 
+ 155:../LIB_HW/Hw_DcMotor.c **** 
+ 156:../LIB_HW/Hw_DcMotor.c **** 
+ 157:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 158:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_SetDir
+ 159:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 160:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 161:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 162:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 163:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_SetDir( u8 Ch, u8 Dir  )
+  68              		.loc 1 163 0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+ 164:../LIB_HW/Hw_DcMotor.c **** {
+ 165:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 166:../LIB_HW/Hw_DcMotor.c **** 
+ 167:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 168:../LIB_HW/Hw_DcMotor.c **** 
+ 169:../LIB_HW/Hw_DcMotor.c **** 
+ 170:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+ 171:../LIB_HW/Hw_DcMotor.c **** 	{
+ 172:../LIB_HW/Hw_DcMotor.c **** 		case 0:
+ 173:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 174:../LIB_HW/Hw_DcMotor.c **** 			{
+ 175:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 176:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 177:../LIB_HW/Hw_DcMotor.c **** 			}
+ 178:../LIB_HW/Hw_DcMotor.c **** 			else
+ 179:../LIB_HW/Hw_DcMotor.c **** 			{
+ 180:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 181:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 182:../LIB_HW/Hw_DcMotor.c **** 			}
+ 183:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 184:../LIB_HW/Hw_DcMotor.c **** 
+ 185:../LIB_HW/Hw_DcMotor.c **** 		case 1:
+ 186:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 187:../LIB_HW/Hw_DcMotor.c **** 			{
+ 188:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+  73              		.loc 1 188 0
+  74 0000 40F60C43 		movw	r3, #3084
+  75 0004 C4F20103 		movt	r3, 16385
+  76 0008 1A68     		ldr	r2, [r3, #0]
+  77 000a 22F48050 		bic	r0, r2, #4096
+  78 000e 1860     		str	r0, [r3, #0]
+ 189:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+  79              		.loc 1 189 0
+  80 0010 1968     		ldr	r1, [r3, #0]
+  81 0012 41F40062 		orr	r2, r1, #2048
+  82 0016 1A60     		str	r2, [r3, #0]
+  83 0018 7047     		bx	lr
+  84              		.cfi_endproc
+  85              	.LFE6:
+  87 001a 00BF     		.section	.text.Hw_DcMotor_Stop,"ax",%progbits
+  88              		.align	2
+  89              		.global	Hw_DcMotor_Stop
+  90              		.thumb
+  91              		.thumb_func
+  93              	Hw_DcMotor_Stop:
+  94              	.LFB1:
+ 119:../LIB_HW/Hw_DcMotor.c **** {
+  95              		.loc 1 119 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              		@ link register save eliminated.
+ 100              	.LVL3:
+ 120:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+ 101              		.loc 1 120 0
+ 102 0000 60B9     		cbnz	r0, .L8
+ 123:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 103              		.loc 1 123 0
+ 104 0002 40F60C43 		movw	r3, #3084
+ 105 0006 C4F20103 		movt	r3, 16385
+ 106 000a 1868     		ldr	r0, [r3, #0]
+ 107              	.LVL4:
+ 108 000c 20F00401 		bic	r1, r0, #4
+ 109 0010 1960     		str	r1, [r3, #0]
+ 124:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 110              		.loc 1 124 0
+ 111 0012 1A68     		ldr	r2, [r3, #0]
+ 112 0014 22F40050 		bic	r0, r2, #8192
+ 113 0018 1860     		str	r0, [r3, #0]
+ 125:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 114              		.loc 1 125 0
+ 115 001a 7047     		bx	lr
+ 116              	.LVL5:
+ 117              	.L8:
+ 120:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+ 118              		.loc 1 120 0
+ 119 001c 0128     		cmp	r0, #1
+ 120 001e 00D0     		beq	.L9
+ 121 0020 7047     		bx	lr
+ 122              	.L9:
+ 128:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 123              		.loc 1 128 0
+ 124 0022 40F60C43 		movw	r3, #3084
+ 125 0026 C4F20103 		movt	r3, 16385
+ 126 002a 1A68     		ldr	r2, [r3, #0]
+ 127 002c 22F48050 		bic	r0, r2, #4096
+ 128              	.LVL6:
+ 129 0030 1860     		str	r0, [r3, #0]
+ 129:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 130              		.loc 1 129 0
+ 131 0032 1968     		ldr	r1, [r3, #0]
+ 132 0034 21F40062 		bic	r2, r1, #2048
+ 133 0038 1A60     		str	r2, [r3, #0]
+ 134 003a 7047     		bx	lr
+ 135              		.cfi_endproc
+ 136              	.LFE1:
+ 138              		.section	.text.Hw_DcMotor_Init,"ax",%progbits
+ 139              		.align	2
+ 140              		.global	Hw_DcMotor_Init
+ 141              		.thumb
+ 142              		.thumb_func
+ 144              	Hw_DcMotor_Init:
+ 145              	.LFB0:
+  47:../LIB_HW/Hw_DcMotor.c **** {
+ 146              		.loc 1 47 0
+ 147              		.cfi_startproc
+ 148              		@ args = 0, pretend = 0, frame = 0
+ 149              		@ frame_needed = 0, uses_anonymous_args = 0
+  67:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 8));	// Clear
+ 150              		.loc 1 67 0
+ 151 0000 4FF44062 		mov	r2, #3072
+ 152 0004 C4F20102 		movt	r2, 16385
+ 153 0008 1168     		ldr	r1, [r2, #0]
+  47:../LIB_HW/Hw_DcMotor.c **** {
+ 154              		.loc 1 47 0
+ 155 000a 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 156              	.LCFI1:
+ 157              		.cfi_def_cfa_offset 24
+ 158              		.cfi_offset 4, -24
+ 159              		.cfi_offset 5, -20
+ 160              		.cfi_offset 6, -16
+ 161              		.cfi_offset 7, -12
+ 162              		.cfi_offset 8, -8
+ 163              		.cfi_offset 14, -4
+  67:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 8));	// Clear
+ 164              		.loc 1 67 0
+ 165 000e 21F47060 		bic	r0, r1, #3840
+ 166 0012 1060     		str	r0, [r2, #0]
+  68:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 167              		.loc 1 68 0
+ 168 0014 1468     		ldr	r4, [r2, #0]
+  73:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 169              		.loc 1 73 0
+ 170 0016 40F60443 		movw	r3, #3076
+  68:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 171              		.loc 1 68 0
+ 172 001a 44F44075 		orr	r5, r4, #768
+ 173 001e 1560     		str	r5, [r2, #0]
+  69:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 174              		.loc 1 69 0
+ 175 0020 1768     		ldr	r7, [r2, #0]
+  73:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 176              		.loc 1 73 0
+ 177 0022 C4F20103 		movt	r3, 16385
+  69:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 178              		.loc 1 69 0
+ 179 0026 1760     		str	r7, [r2, #0]
+  73:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 180              		.loc 1 73 0
+ 181 0028 1A68     		ldr	r2, [r3, #0]
+  98:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 182              		.loc 1 98 0
+ 183 002a 0020     		movs	r0, #0
+  73:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 184              		.loc 1 73 0
+ 185 002c 22F47061 		bic	r1, r2, #3840
+ 186 0030 1960     		str	r1, [r3, #0]
+  74:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 187              		.loc 1 74 0
+ 188 0032 1C68     		ldr	r4, [r3, #0]
+  98:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 189              		.loc 1 98 0
+ 190 0034 40F20006 		movw	r6, #:lower16:Hw_DcMotor_Stop
+  74:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 191              		.loc 1 74 0
+ 192 0038 44F44075 		orr	r5, r4, #768
+ 193 003c 1D60     		str	r5, [r3, #0]
+  75:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 194              		.loc 1 75 0
+ 195 003e 1A68     		ldr	r2, [r3, #0]
+ 100:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 196              		.loc 1 100 0
+ 197 0040 40F20004 		movw	r4, #:lower16:Hw_DcMotor_State
+  75:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 198              		.loc 1 75 0
+ 199 0044 1A60     		str	r2, [r3, #0]
+  79:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (12));	// Clear
+ 200              		.loc 1 79 0
+ 201 0046 1968     		ldr	r1, [r3, #0]
+ 100:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 202              		.loc 1 100 0
+ 203 0048 C0F20004 		movt	r4, #:upper16:Hw_DcMotor_State
+  79:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (12));	// Clear
+ 204              		.loc 1 79 0
+ 205 004c 21F47045 		bic	r5, r1, #61440
+ 206 0050 1D60     		str	r5, [r3, #0]
+  80:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (12));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 207              		.loc 1 80 0
+ 208 0052 1A68     		ldr	r2, [r3, #0]
+ 101:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 209              		.loc 1 101 0
+ 210 0054 0546     		mov	r5, r0
+  80:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (12));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 211              		.loc 1 80 0
+ 212 0056 42F44051 		orr	r1, r2, #12288
+ 213 005a 1960     		str	r1, [r3, #0]
+  81:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (14));	// CNF,  PB.2 General purpose output push-pul	
+ 214              		.loc 1 81 0
+ 215 005c 1A68     		ldr	r2, [r3, #0]
+ 103:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 216              		.loc 1 103 0
+ 217 005e 0127     		movs	r7, #1
+  81:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (14));	// CNF,  PB.2 General purpose output push-pul	
+ 218              		.loc 1 81 0
+ 219 0060 1A60     		str	r2, [r3, #0]
+  85:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (16));	// Clear
+ 220              		.loc 1 85 0
+ 221 0062 1968     		ldr	r1, [r3, #0]
+  98:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 222              		.loc 1 98 0
+ 223 0064 C0F20006 		movt	r6, #:upper16:Hw_DcMotor_Stop
+  85:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (16));	// Clear
+ 224              		.loc 1 85 0
+ 225 0068 21F47022 		bic	r2, r1, #983040
+ 226 006c 1A60     		str	r2, [r3, #0]
+  86:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (16));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 227              		.loc 1 86 0
+ 228 006e 1968     		ldr	r1, [r3, #0]
+ 100:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 229              		.loc 1 100 0
+ 230 0070 4FF00208 		mov	r8, #2
+  86:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (16));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 231              		.loc 1 86 0
+ 232 0074 41F44032 		orr	r2, r1, #196608
+ 233 0078 1A60     		str	r2, [r3, #0]
+  87:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (18));	// CNF,  PB.6 General purpose output push-pul	
+ 234              		.loc 1 87 0
+ 235 007a 1968     		ldr	r1, [r3, #0]
+ 236 007c 1960     		str	r1, [r3, #0]
+  91:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (20));	// Clear
+ 237              		.loc 1 91 0
+ 238 007e 1A68     		ldr	r2, [r3, #0]
+ 239 0080 22F47001 		bic	r1, r2, #15728640
+ 240 0084 1960     		str	r1, [r3, #0]
+  92:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (20));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 241              		.loc 1 92 0
+ 242 0086 1A68     		ldr	r2, [r3, #0]
+ 243 0088 42F44011 		orr	r1, r2, #3145728
+ 244 008c 1960     		str	r1, [r3, #0]
+  93:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (22));	// CNF,  PB.6 General purpose output push-pul				
+ 245              		.loc 1 93 0
+ 246 008e 1A68     		ldr	r2, [r3, #0]
+ 247 0090 1A60     		str	r2, [r3, #0]
+ 248              	.LVL7:
+  98:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 249              		.loc 1 98 0
+ 250 0092 B047     		blx	r6
+ 251              	.LVL8:
+ 252 0094 3846     		mov	r0, r7
+ 100:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 253              		.loc 1 100 0
+ 254 0096 84F80180 		strb	r8, [r4, #1]
+ 101:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 255              		.loc 1 101 0
+ 256 009a A570     		strb	r5, [r4, #2]
+ 102:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Speed = 0;
+ 257              		.loc 1 102 0
+ 258 009c A580     		strh	r5, [r4, #4]	@ movhi
+ 103:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 259              		.loc 1 103 0
+ 260 009e 2770     		strb	r7, [r4, #0]
+ 261              	.LVL9:
+  98:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 262              		.loc 1 98 0
+ 263 00a0 B047     		blx	r6
+ 264              	.LVL10:
+ 100:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 265              		.loc 1 100 0
+ 266 00a2 84F80780 		strb	r8, [r4, #7]
+ 101:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 267              		.loc 1 101 0
+ 268 00a6 2572     		strb	r5, [r4, #8]
+ 102:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Speed = 0;
+ 269              		.loc 1 102 0
+ 270 00a8 6581     		strh	r5, [r4, #10]	@ movhi
+ 103:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 271              		.loc 1 103 0
+ 272 00aa A771     		strb	r7, [r4, #6]
+ 273              	.LVL11:
+ 274 00ac BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 275              		.cfi_endproc
+ 276              	.LFE0:
+ 278              		.section	.text.Hw_DcMotor_SetPwm,"ax",%progbits
+ 279              		.align	2
+ 280              		.global	Hw_DcMotor_SetPwm
+ 281              		.thumb
+ 282              		.thumb_func
+ 284              	Hw_DcMotor_SetPwm:
+ 285              	.LFB2:
+ 145:../LIB_HW/Hw_DcMotor.c **** {
+ 286              		.loc 1 145 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290              	.LVL12:
+ 146:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 291              		.loc 1 146 0
+ 292 0000 0128     		cmp	r0, #1
+ 145:../LIB_HW/Hw_DcMotor.c **** {
+ 293              		.loc 1 145 0
+ 294 0002 08B5     		push	{r3, lr}
+ 295              	.LCFI2:
+ 296              		.cfi_def_cfa_offset 8
+ 297              		.cfi_offset 3, -8
+ 298              		.cfi_offset 14, -4
+ 146:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 299              		.loc 1 146 0
+ 300 0004 01D8     		bhi	.L11
+ 301 0006 014B     		ldr	r3, .L13
+ 302 0008 9847     		blx	r3
+ 303              	.LVL13:
+ 304              	.L11:
+ 305 000a 08BD     		pop	{r3, pc}
+ 306              	.L14:
+ 307              		.align	2
+ 308              	.L13:
+ 309 000c 00000000 		.word	Hw_DcMotor_SetPwm.part.0
+ 310              		.cfi_endproc
+ 311              	.LFE2:
+ 313              		.section	.text.Hw_DcMotor_SetDir,"ax",%progbits
+ 314              		.align	2
+ 315              		.global	Hw_DcMotor_SetDir
+ 316              		.thumb
+ 317              		.thumb_func
+ 319              	Hw_DcMotor_SetDir:
+ 320              	.LFB3:
+ 164:../LIB_HW/Hw_DcMotor.c **** {
+ 321              		.loc 1 164 0
+ 322              		.cfi_startproc
+ 323              		@ args = 0, pretend = 0, frame = 0
+ 324              		@ frame_needed = 0, uses_anonymous_args = 0
+ 325              	.LVL14:
+ 165:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 326              		.loc 1 165 0
+ 327 0000 0128     		cmp	r0, #1
+ 164:../LIB_HW/Hw_DcMotor.c **** {
+ 328              		.loc 1 164 0
+ 329 0002 08B5     		push	{r3, lr}
+ 330              	.LCFI3:
+ 331              		.cfi_def_cfa_offset 8
+ 332              		.cfi_offset 3, -8
+ 333              		.cfi_offset 14, -4
+ 165:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 334              		.loc 1 165 0
+ 335 0004 00D9     		bls	.L21
+ 336              	.LVL15:
+ 337              	.L15:
+ 338 0006 08BD     		pop	{r3, pc}
+ 339              	.LVL16:
+ 340              	.L21:
+ 167:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 341              		.loc 1 167 0
+ 342 0008 164B     		ldr	r3, .L23
+ 343 000a 00EB4000 		add	r0, r0, r0, lsl #1
+ 344              	.LVL17:
+ 345 000e 03EB4002 		add	r2, r3, r0, lsl #1
+ 346 0012 5170     		strb	r1, [r2, #1]
+ 170:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+ 347              		.loc 1 170 0
+ 348 0014 15D0     		beq	.L18
+ 175:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 349              		.loc 1 175 0
+ 350 0016 40F60C40 		movw	r0, #3084
+ 351 001a C4F20100 		movt	r0, 16385
+ 352 001e 0368     		ldr	r3, [r0, #0]
+ 173:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 353              		.loc 1 173 0
+ 354 0020 39B9     		cbnz	r1, .L19
+ 175:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 355              		.loc 1 175 0
+ 356 0022 23F00401 		bic	r1, r3, #4
+ 357              	.LVL18:
+ 358 0026 0160     		str	r1, [r0, #0]
+ 176:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 359              		.loc 1 176 0
+ 360 0028 0268     		ldr	r2, [r0, #0]
+ 361              	.LVL19:
+ 362 002a 42F40053 		orr	r3, r2, #8192
+ 363 002e 0360     		str	r3, [r0, #0]
+ 364 0030 08BD     		pop	{r3, pc}
+ 365              	.LVL20:
+ 366              	.L19:
+ 180:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 367              		.loc 1 180 0
+ 368 0032 43F00401 		orr	r1, r3, #4
+ 369              	.LVL21:
+ 370 0036 0160     		str	r1, [r0, #0]
+ 181:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 371              		.loc 1 181 0
+ 372 0038 0268     		ldr	r2, [r0, #0]
+ 373              	.LVL22:
+ 374 003a 22F40053 		bic	r3, r2, #8192
+ 375 003e 0360     		str	r3, [r0, #0]
+ 376 0040 08BD     		pop	{r3, pc}
+ 377              	.LVL23:
+ 378              	.L18:
+ 186:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 379              		.loc 1 186 0
+ 380 0042 61B1     		cbz	r1, .L22
+ 190:../LIB_HW/Hw_DcMotor.c **** 			}
+ 191:../LIB_HW/Hw_DcMotor.c **** 			else
+ 192:../LIB_HW/Hw_DcMotor.c **** 			{
+ 193:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 381              		.loc 1 193 0
+ 382 0044 40F60C40 		movw	r0, #3084
+ 383 0048 C4F20100 		movt	r0, 16385
+ 384 004c 0168     		ldr	r1, [r0, #0]
+ 385              	.LVL24:
+ 386 004e 41F48052 		orr	r2, r1, #4096
+ 387              	.LVL25:
+ 388 0052 0260     		str	r2, [r0, #0]
+ 194:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 389              		.loc 1 194 0
+ 390 0054 0368     		ldr	r3, [r0, #0]
+ 391 0056 23F40061 		bic	r1, r3, #2048
+ 392 005a 0160     		str	r1, [r0, #0]
+ 393 005c D3E7     		b	.L15
+ 394              	.LVL26:
+ 395              	.L22:
+ 396 005e 0248     		ldr	r0, .L23+4
+ 397 0060 8047     		blx	r0
+ 398              	.LVL27:
+ 399 0062 08BD     		pop	{r3, pc}
+ 400              	.L24:
+ 401              		.align	2
+ 402              	.L23:
+ 403 0064 00000000 		.word	Hw_DcMotor_State
+ 404 0068 00000000 		.word	Hw_DcMotor_SetDir.part.1
+ 405              		.cfi_endproc
+ 406              	.LFE3:
+ 408              		.section	.text.Hw_DcMotor_Handle,"ax",%progbits
+ 409              		.align	2
+ 410              		.global	Hw_DcMotor_Handle
+ 411              		.thumb
+ 412              		.thumb_func
+ 414              	Hw_DcMotor_Handle:
+ 415              	.LFB4:
+ 195:../LIB_HW/Hw_DcMotor.c **** 			}
+ 196:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 197:../LIB_HW/Hw_DcMotor.c **** 	}	
+ 198:../LIB_HW/Hw_DcMotor.c **** }
+ 199:../LIB_HW/Hw_DcMotor.c **** 
+ 200:../LIB_HW/Hw_DcMotor.c **** 
+ 201:../LIB_HW/Hw_DcMotor.c **** 
+ 202:../LIB_HW/Hw_DcMotor.c **** 
+ 203:../LIB_HW/Hw_DcMotor.c **** 
+ 204:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 205:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Handle
+ 206:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 207:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 208:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 209:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 210:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Handle( s16 SpeedLeft, s16 SpeedRight )
+ 211:../LIB_HW/Hw_DcMotor.c **** {
+ 416              		.loc 1 211 0
+ 417              		.cfi_startproc
+ 418              		@ args = 0, pretend = 0, frame = 0
+ 419              		@ frame_needed = 0, uses_anonymous_args = 0
+ 420              	.LVL28:
+ 212:../LIB_HW/Hw_DcMotor.c **** 	u16 Pwm;
+ 213:../LIB_HW/Hw_DcMotor.c **** 
+ 214:../LIB_HW/Hw_DcMotor.c **** 
+ 215:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft  >  HW_DCMOTOR_MAX_PWM )	SpeedLeft  =  HW_DCMOTOR_MAX_PWM;
+ 421              		.loc 1 215 0
+ 422 0000 6428     		cmp	r0, #100
+ 211:../LIB_HW/Hw_DcMotor.c **** {
+ 423              		.loc 1 211 0
+ 424 0002 70B5     		push	{r4, r5, r6, lr}
+ 425              	.LCFI4:
+ 426              		.cfi_def_cfa_offset 16
+ 427              		.cfi_offset 4, -16
+ 428              		.cfi_offset 5, -12
+ 429              		.cfi_offset 6, -8
+ 430              		.cfi_offset 14, -4
+ 431              		.loc 1 215 0
+ 432 0004 1FDC     		bgt	.L36
+ 216:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft  < -HW_DCMOTOR_MAX_PWM )	SpeedLeft  = -HW_DCMOTOR_MAX_PWM;
+ 433              		.loc 1 216 0
+ 434 0006 6FF06304 		mvn	r4, #99
+ 435 000a A042     		cmp	r0, r4
+ 436 000c A8BF     		it	ge
+ 437 000e 0446     		movge	r4, r0
+ 438              	.LVL29:
+ 217:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight >  HW_DCMOTOR_MAX_PWM )	SpeedRight =  HW_DCMOTOR_MAX_PWM;
+ 439              		.loc 1 217 0
+ 440 0010 6429     		cmp	r1, #100
+ 441 0012 1BDC     		bgt	.L38
+ 442              	.L42:
+ 218:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight < -HW_DCMOTOR_MAX_PWM )	SpeedRight = -HW_DCMOTOR_MAX_PWM;
+ 443              		.loc 1 218 0
+ 444 0014 6FF06305 		mvn	r5, #99
+ 445 0018 A942     		cmp	r1, r5
+ 446 001a A8BF     		it	ge
+ 447 001c 0D46     		movge	r5, r1
+ 448              	.LVL30:
+ 219:../LIB_HW/Hw_DcMotor.c **** 
+ 220:../LIB_HW/Hw_DcMotor.c **** 
+ 221:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft > 0 )
+ 449              		.loc 1 221 0
+ 450 001e 002C     		cmp	r4, #0
+ 451 0020 17DD     		ble	.L30
+ 452              	.L43:
+ 453              	.LVL31:
+ 454 0022 A1B2     		uxth	r1, r4
+ 455 0024 0020     		movs	r0, #0
+ 456 0026 1E4E     		ldr	r6, .L45
+ 457 0028 B047     		blx	r6
+ 458              	.LVL32:
+ 222:../LIB_HW/Hw_DcMotor.c **** 	{
+ 223:../LIB_HW/Hw_DcMotor.c **** 		Pwm = SpeedLeft;
+ 224:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LU, Pwm );
+ 225:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LD, Pwm );		
+ 226:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_FOR );
+ 459              		.loc 1 226 0
+ 460 002a 0020     		movs	r0, #0
+ 461 002c 0146     		mov	r1, r0
+ 462 002e 1D4C     		ldr	r4, .L45+4
+ 463 0030 A047     		blx	r4
+ 464              	.LVL33:
+ 465              	.L31:
+ 227:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LD, HW_DCMOTOR_FOR );		
+ 228:../LIB_HW/Hw_DcMotor.c **** 	}
+ 229:../LIB_HW/Hw_DcMotor.c **** 	else
+ 230:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft < 0 )
+ 231:../LIB_HW/Hw_DcMotor.c **** 	{
+ 232:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedLeft;
+ 233:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LU, Pwm );
+ 234:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LD, Pwm );		
+ 235:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_BACK );
+ 236:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LD, HW_DCMOTOR_BACK );		
+ 237:../LIB_HW/Hw_DcMotor.c **** 	}
+ 238:../LIB_HW/Hw_DcMotor.c **** 	else
+ 239:../LIB_HW/Hw_DcMotor.c **** 	{
+ 240:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LU, 0 );
+ 241:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LD, 0 );				
+ 242:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_STOP );
+ 243:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LD, HW_DCMOTOR_STOP );				
+ 244:../LIB_HW/Hw_DcMotor.c **** 	}
+ 245:../LIB_HW/Hw_DcMotor.c **** 
+ 246:../LIB_HW/Hw_DcMotor.c **** 
+ 247:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight > 0 )
+ 466              		.loc 1 247 0
+ 467 0032 002D     		cmp	r5, #0
+ 468 0034 18DC     		bgt	.L40
+ 469              	.L33:
+ 248:../LIB_HW/Hw_DcMotor.c **** 	{
+ 249:../LIB_HW/Hw_DcMotor.c **** 		Pwm = SpeedRight;
+ 250:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_RU, Pwm );
+ 251:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_RD, Pwm );		
+ 252:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RU, HW_DCMOTOR_FOR );
+ 253:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RD, HW_DCMOTOR_FOR );		
+ 254:../LIB_HW/Hw_DcMotor.c **** 	}
+ 255:../LIB_HW/Hw_DcMotor.c **** 	else
+ 256:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight < 0 )
+ 470              		.loc 1 256 0
+ 471 0036 20D1     		bne	.L41
+ 472              	.LVL34:
+ 473 0038 2846     		mov	r0, r5
+ 474 003a 2946     		mov	r1, r5
+ 475 003c B047     		blx	r6
+ 476              	.LVL35:
+ 257:../LIB_HW/Hw_DcMotor.c **** 	{
+ 258:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedRight;
+ 259:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_RU, Pwm );
+ 260:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_RD, Pwm );		
+ 261:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RU, HW_DCMOTOR_BACK );
+ 262:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RD, HW_DCMOTOR_BACK );		
+ 263:../LIB_HW/Hw_DcMotor.c **** 	}
+ 264:../LIB_HW/Hw_DcMotor.c **** 	else
+ 265:../LIB_HW/Hw_DcMotor.c **** 	{
+ 266:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LU, 0 );
+ 267:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LD, 0 );				
+ 268:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RU, HW_DCMOTOR_STOP );
+ 477              		.loc 1 268 0
+ 478 003e 0120     		movs	r0, #1
+ 479 0040 0221     		movs	r1, #2
+ 480 0042 A047     		blx	r4
+ 481              	.LVL36:
+ 482 0044 70BD     		pop	{r4, r5, r6, pc}
+ 483              	.LVL37:
+ 484              	.L36:
+ 215:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft  >  HW_DCMOTOR_MAX_PWM )	SpeedLeft  =  HW_DCMOTOR_MAX_PWM;
+ 485              		.loc 1 215 0
+ 486 0046 6424     		movs	r4, #100
+ 487              	.LVL38:
+ 217:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight >  HW_DCMOTOR_MAX_PWM )	SpeedRight =  HW_DCMOTOR_MAX_PWM;
+ 488              		.loc 1 217 0
+ 489 0048 6429     		cmp	r1, #100
+ 490 004a E3DD     		ble	.L42
+ 491              	.L38:
+ 492 004c 6425     		movs	r5, #100
+ 493              	.LVL39:
+ 221:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft > 0 )
+ 494              		.loc 1 221 0
+ 495 004e 002C     		cmp	r4, #0
+ 496 0050 E7DC     		bgt	.L43
+ 497              	.L30:
+ 230:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft < 0 )
+ 498              		.loc 1 230 0
+ 499 0052 1AD1     		bne	.L44
+ 500              	.LVL40:
+ 501 0054 2146     		mov	r1, r4
+ 502 0056 2046     		mov	r0, r4
+ 503 0058 114E     		ldr	r6, .L45
+ 504 005a B047     		blx	r6
+ 505              	.LVL41:
+ 242:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_STOP );
+ 506              		.loc 1 242 0
+ 507 005c 2046     		mov	r0, r4
+ 508 005e 0221     		movs	r1, #2
+ 509 0060 104C     		ldr	r4, .L45+4
+ 510 0062 A047     		blx	r4
+ 511              	.LVL42:
+ 247:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight > 0 )
+ 512              		.loc 1 247 0
+ 513 0064 002D     		cmp	r5, #0
+ 514 0066 E6DD     		ble	.L33
+ 515              	.LVL43:
+ 516              	.L40:
+ 517 0068 A9B2     		uxth	r1, r5
+ 518 006a 0120     		movs	r0, #1
+ 519 006c B047     		blx	r6
+ 520              	.LVL44:
+ 521              	.LBB40:
+ 522              	.LBB41:
+ 167:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 523              		.loc 1 167 0
+ 524 006e 0E4B     		ldr	r3, .L45+8
+ 525 0070 0022     		movs	r2, #0
+ 526 0072 DA71     		strb	r2, [r3, #7]
+ 527 0074 0D49     		ldr	r1, .L45+12
+ 528 0076 8847     		blx	r1
+ 529              	.LVL45:
+ 530 0078 70BD     		pop	{r4, r5, r6, pc}
+ 531              	.LVL46:
+ 532              	.L41:
+ 533              	.LBE41:
+ 534              	.LBE40:
+ 258:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedRight;
+ 535              		.loc 1 258 0
+ 536 007a 6842     		negs	r0, r5
+ 537 007c 81B2     		uxth	r1, r0
+ 538 007e 0120     		movs	r0, #1
+ 539 0080 B047     		blx	r6
+ 540              	.LVL47:
+ 261:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RU, HW_DCMOTOR_BACK );
+ 541              		.loc 1 261 0
+ 542 0082 0120     		movs	r0, #1
+ 543 0084 0146     		mov	r1, r0
+ 544 0086 A047     		blx	r4
+ 545              	.LVL48:
+ 546 0088 70BD     		pop	{r4, r5, r6, pc}
+ 547              	.LVL49:
+ 548              	.L44:
+ 232:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedLeft;
+ 549              		.loc 1 232 0
+ 550 008a 6142     		negs	r1, r4
+ 551 008c 0020     		movs	r0, #0
+ 552 008e 89B2     		uxth	r1, r1
+ 553 0090 034E     		ldr	r6, .L45
+ 554 0092 B047     		blx	r6
+ 555              	.LVL50:
+ 235:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_BACK );
+ 556              		.loc 1 235 0
+ 557 0094 034C     		ldr	r4, .L45+4
+ 558 0096 0020     		movs	r0, #0
+ 559 0098 0121     		movs	r1, #1
+ 560 009a A047     		blx	r4
+ 561              	.LVL51:
+ 562 009c C9E7     		b	.L31
+ 563              	.L46:
+ 564 009e 00BF     		.align	2
+ 565              	.L45:
+ 566 00a0 00000000 		.word	Hw_DcMotor_SetPwm.part.0
+ 567 00a4 00000000 		.word	Hw_DcMotor_SetDir
+ 568 00a8 00000000 		.word	Hw_DcMotor_State
+ 569 00ac 00000000 		.word	Hw_DcMotor_SetDir.part.1
+ 570              		.cfi_endproc
+ 571              	.LFE4:
+ 573              		.comm	Hw_DcMotor_State,12,4
+ 574              		.text
+ 575              	.Letext0:
+ 576              		.file 2 "../LIB_HW/Hw_Define.h"
+ 577              		.file 3 "../LIB_HW/Hw_DcMotor.h"
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 main.c
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:19     .text.LED_Tick:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:24     .text.LED_Tick:0000000000000000 LED_Tick
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:47     .text.startup.main:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:52     .text.startup.main:0000000000000000 main
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:150    .text.startup.main:000000000000006c $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:166    .text.Test_DCMOTOR:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:171    .text.Test_DCMOTOR:0000000000000000 Test_DCMOTOR
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:317    .text.Test_DCMOTOR:00000000000000b0 $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:326    .bss.Pwm.4563:0000000000000000 $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:330    .bss.Pwm.4563:0000000000000000 Pwm.4563
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//cc0AA1fa.s:333    .rodata.str1.4:0000000000000000 $d
+                            *ABS*:0000000000000000 Hw_DcMotor.c
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:19     .text.Hw_DcMotor_SetPwm.part.0:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:23     .text.Hw_DcMotor_SetPwm.part.0:0000000000000000 Hw_DcMotor_SetPwm.part.0
+                            *COM*:000000000000000c Hw_DcMotor_State
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:62     .text.Hw_DcMotor_SetDir.part.1:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:66     .text.Hw_DcMotor_SetDir.part.1:0000000000000000 Hw_DcMotor_SetDir.part.1
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:88     .text.Hw_DcMotor_Stop:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:93     .text.Hw_DcMotor_Stop:0000000000000000 Hw_DcMotor_Stop
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:139    .text.Hw_DcMotor_Init:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:144    .text.Hw_DcMotor_Init:0000000000000000 Hw_DcMotor_Init
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:279    .text.Hw_DcMotor_SetPwm:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:284    .text.Hw_DcMotor_SetPwm:0000000000000000 Hw_DcMotor_SetPwm
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:309    .text.Hw_DcMotor_SetPwm:000000000000000c $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:314    .text.Hw_DcMotor_SetDir:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:319    .text.Hw_DcMotor_SetDir:0000000000000000 Hw_DcMotor_SetDir
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:403    .text.Hw_DcMotor_SetDir:0000000000000064 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:409    .text.Hw_DcMotor_Handle:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:414    .text.Hw_DcMotor_Handle:0000000000000000 Hw_DcMotor_Handle
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccKD32ah.s:566    .text.Hw_DcMotor_Handle:00000000000000a0 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
-Hw_Led_Toggle
-Hw_Init
-Ap_Init
-Hw_Timer_Set
-Hw_Timer_Start
-Lb_printf
-Hw_Timer_Get_CountValue
-Ap_StrCmd_ExeCmd
-Hw_Sonic_GetDistanceMM
-Ap_StrCmd_SendInfo
-Hw_Uart_Getch
-Hw_Uart_Print
-Hw_DcMotor_Handle
+Hw_Pwm_SetPercent
